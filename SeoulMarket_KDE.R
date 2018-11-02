@@ -1,4 +1,4 @@
-# [ÆÐÅ°Áö] ----
+# [íŒ¨í‚¤ì§€] ----
 install.packages("readxl")
 install.packages("devtools")
 install.packages("ggmap")
@@ -18,19 +18,19 @@ library(sp)
 library(KernSmooth)
 library(RColorBrewer)
 
-# [ÀÛ¾÷°æ·Î] ----
+# [ìž‘ì—…ê²½ë¡œ] ----
 setwd("c://R/BigData/Project")
 
-# [ÀÛ¾÷] ----
+# [ìž‘ì—…] ----
 
 dt = read.csv("market1.csv")
 View(dt)
-data <- dt[dt$½Ãµµ¸í == "¼­¿ïÆ¯º°½Ã" & dt$»ó±Ç¾÷Á¾´ëºÐ·ù¸í == "À½½Ä", ]
+data <- dt[dt$ì‹œë„ëª… == "ì„œìš¸íŠ¹ë³„ì‹œ" & dt$ìƒê¶Œì—…ì¢…ëŒ€ë¶„ë¥˜ëª… == "ìŒì‹", ]
 View(data)
-data.gu <- data[data$½Ã±º±¸¸í == "±¤Áø±¸", ]
-data.gu <- data.gu[data.gu$ÇàÁ¤µ¿¸í == "ÀÚ¾ç3µ¿"|data.gu$ÇàÁ¤µ¿¸í == "ÀÚ¾ç4µ¿", ]
-data.gu.loc <- data.gu[ ,c("À§µµ","°æµµ")]
-d2d <- KernSmooth::bkde2D(cbind(data.gu.loc$°æµµ,data.gu.loc$À§µµ) , bandwidth = c(0.0015, 0.0015))
+data.gu <- data[data$ì‹œêµ°êµ¬ëª… == "ê´‘ì§„êµ¬", ]
+data.gu <- data.gu[data.gu$í–‰ì •ë™ëª… == "ìžì–‘3ë™"|data.gu$í–‰ì •ë™ëª… == "ìžì–‘4ë™", ]
+data.gu.loc <- data.gu[ ,c("ìœ„ë„","ê²½ë„")]
+d2d <- KernSmooth::bkde2D(cbind(data.gu.loc$ê²½ë„,data.gu.loc$ìœ„ë„) , bandwidth = c(0.0015, 0.0015))
 contour(d2d$x1,d2d$x2,d2d$fhat)
 
 
@@ -38,9 +38,9 @@ data.kmeans <- kmeans(data.gu.loc, centers = 6, iter.max = 100000)
 data.kmeans$centers
 
 data.gu.loc$cluster <- as.factor(data.kmeans$cluster)
-qplot(°æµµ, À§µµ, colour = cluster, data = data.gu.loc)
+qplot(ê²½ë„, ìœ„ë„, colour = cluster, data = data.gu.loc)
 
-# ¾ÈµÊ.
+# ì•ˆë¨.
 
 lines = contourLines(x=d2d$x1, y=d2d$x2, z=d2d$fhat, nlevels = 20)
 dd1 = sapply(1:length(lines), function(i) Polygon(as.matrix(cbind(lines[[i]]$x,lines[[i]]$y))))
